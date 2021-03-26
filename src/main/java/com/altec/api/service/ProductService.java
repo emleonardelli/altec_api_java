@@ -13,10 +13,20 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public List<Producto> getAll() {
-        return (List<Producto>) productRepository.findAll();
+        return (List<Producto>) productRepository.findAllByOrderByIdProductoDesc();
     };
 
     public Producto save(Producto p) {
         return productRepository.save(p);
     };
+
+    public Producto find(int idProducto) {
+        return productRepository.findById(idProducto)
+            .map(p -> p.get())
+            .orElse(null);
+    }
+
+    public void delete(int idProducto) {
+        productRepository.deleteById(idProducto);
+    }
 }

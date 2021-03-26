@@ -14,7 +14,12 @@
           <div class="container-fluid">
 
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Productos</h1>
+            <h1 class="h3 mb-2 text-gray-800">Productos
+              <a class="btn btn-info" 
+                href="/productos/add">
+                Agregar
+              </a>
+            </h1>
             
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
@@ -40,7 +45,14 @@
                                 <td th:text="${producto.getPrecioVenta()}"></td>
                                 <td th:text="${producto.getCantidadStock()}"></td>
                                 <td>
-                                  <button class="btn btn-danger">Borrar</button>
+                                  <a class="btn btn-info" 
+                                    th:href="@{/productos/edit(id=${producto.getIdProducto()})}">
+                                    <i class="fas fa-edit"></i>
+                                  </a>
+                                  <a class="btn btn-danger" 
+                                    th:href="@{/productos/delete(id=${producto.getIdProducto()})}">
+                                    <i class="fas fa-trash"></i>
+                                  </a>
                                 </td>
                             </tr>
                             </tbody>

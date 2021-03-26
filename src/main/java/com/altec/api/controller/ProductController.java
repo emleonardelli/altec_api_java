@@ -5,9 +5,7 @@ import com.altec.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
@@ -15,19 +13,38 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/productos", method = RequestMethod.GET)
-    public String getProducts(Model model) {
-        Producto p = new Producto();
-        p.setCantidadStock(3);
-        p.setNombre("TESTING");
-        p.setPrecioVenta(1.1);
-        p.setEstado(true);
-        p.setCodigoBarras("sdahfkl3o2ij");
-        p.setIdCategoria(1);
-        p = productService.save(p);
-
+    @GetMapping("/productos")
+    public String getAll(Model model) {
         List<Producto> productos = productService.getAll();
         model.addAttribute("productos", productos);
         return "products/all";
+    }
+
+    @GetMapping("/productos/add")
+    public String add(Model model) {
+        return "products/add";
+    }
+
+    @PostMapping("/productos/save") 
+    public String save(Producto p,Model model) {
+        p.setIdProducto(p.getIdProducto());
+        p = productService.save(p);
+        return  "redirect:/productos";
+    }
+
+    @GetMapping("/productos/edit") 
+    public String edit(
+        @RequestParam("id") int idProducto,
+        Model model
+    ) {
+        Producto p = productService.find(idProducto);
+        model.addAttribute("producto", p);
+        return  "/products/edit";
+    }
+
+    @GetMapping("/productos/delete")
+    public String delete(@RequestParam("id") int idProducto) {
+        productService.delete(idProducto);
+        return "redirect:/productos";
     }
 }
