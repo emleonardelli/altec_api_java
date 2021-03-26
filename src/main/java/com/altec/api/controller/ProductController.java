@@ -17,6 +17,15 @@ public class ProductController {
 
     @RequestMapping(value = "/productos", method = RequestMethod.GET)
     public String getProducts(Model model) {
+        Producto p = new Producto();
+        p.setCantidadStock(3);
+        p.setNombre("TESTING");
+        p.setPrecioVenta(1.1);
+        p.setEstado(true);
+        p.setCodigoBarras("sdahfkl3o2ij");
+        p.setIdCategoria(1);
+        p = productService.save(p);
+
         List<Producto> productos = productService.getAll();
         model.addAttribute("productos", productos);
         return "products/all";
