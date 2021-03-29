@@ -30,23 +30,29 @@
                             <input type="text"
                               name="nombre" 
                               th:value="${producto.getNombre()}"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Nombre...">
                           </div>
                           
                           <div class="form-group">
-                            <input type="number"
-                              name="idCategoria" 
-                              th:value="${producto.getIdCategoria()}"
-                              class="form-control form-control-user"
-                              placeholder="Id Categoria...">
+                            <select 
+                              class="form-control"
+                              name="idCategoria"
+                              required>
+                              <option>Seleccione una categoria...</option>
+                              <option 
+                                th:selected="${producto.getCategoria().getIdCategoria() == categoria.getIdCategoria()}"
+                                th:each="categoria : ${categorias}"
+                                th:text="${categoria.getDescripcion}"
+                                th:value="${categoria.getIdCategoria()}"></option>
+                            </select>
                           </div>
                           
                           <div class="form-group">
                             <input type="text" 
                               name="codigoBarras"
                               th:value="${producto.getCodigoBarras()}"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Codigo de barras...">
                           </div>
 
@@ -54,7 +60,7 @@
                             <input type="text" 
                               name="precioVenta"
                               th:value="${producto.getPrecioVenta()}"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Precio de venta...">
                           </div>
 
@@ -62,7 +68,7 @@
                             <input type="text" 
                               name="cantidadStock"
                               th:value="${producto.getCantidadStock()}"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Cantidad en stock...">
                           </div>
                           

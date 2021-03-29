@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends CrudRepository<Categoria, Integer>{
     List<Categoria> findAllByOrderByIdCategoriaDesc(); 
+    List<Categoria> findAllByEstado(final Boolean estado);
 }

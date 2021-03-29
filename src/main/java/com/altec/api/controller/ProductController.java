@@ -1,6 +1,8 @@
 package com.altec.api.controller;
 
+import com.altec.api.persistence.entity.Categoria;
 import com.altec.api.persistence.entity.Producto;
+import com.altec.api.service.CategoryService;
 import com.altec.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/productos")
     public String getAll(Model model) {
         List<Producto> productos = productService.getAll();
@@ -22,6 +27,8 @@ public class ProductController {
 
     @GetMapping("/productos/add")
     public String add(Model model) {
+        List<Categoria> categorias = categoryService.getActives();
+        model.addAttribute("categorias", categorias);
         return "products/add";
     }
 
@@ -36,6 +43,8 @@ public class ProductController {
         @RequestParam("id") int idProducto,
         Model model
     ) {
+        List<Categoria> categorias = categoryService.getActives();
+        model.addAttribute("categorias", categorias);
         Producto p = productService.find(idProducto);
         model.addAttribute("producto", p);
         return  "/products/edit";

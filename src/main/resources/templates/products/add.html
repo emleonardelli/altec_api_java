@@ -27,35 +27,41 @@
                           <div class="form-group">
                             <input type="text"
                               name="nombre" 
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Nombre...">
                           </div>
                           
                           <div class="form-group">
-                            <input type="number"
-                              name="idCategoria" 
-                              class="form-control form-control-user"
-                              placeholder="Id Categoria...">
+                            <select 
+                              class="form-control"
+                              name="idCategoria"
+                              required>
+                              <option>Seleccione una categoria...</option>
+                              <option 
+                                th:each="categoria : ${categorias}"
+                                th:text="${categoria.getDescripcion}"
+                                th:value="${categoria.getIdCategoria()}"></option>
+                            </select>
                           </div>
                           
                           <div class="form-group">
                             <input type="text" 
                               name="codigoBarras"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Codigo de barras...">
                           </div>
 
                           <div class="form-group">
                             <input type="text" 
                               name="precioVenta"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Precio de venta...">
                           </div>
 
                           <div class="form-group">
                             <input type="text" 
                               name="cantidadStock"
-                              class="form-control form-control-user"
+                              class="form-control"
                               placeholder="Cantidad en stock...">
                           </div>
                           

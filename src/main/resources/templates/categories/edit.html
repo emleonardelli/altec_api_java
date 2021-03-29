@@ -38,9 +38,8 @@
                             <div class="custom-control custom-checkbox small">
                               <input type="checkbox"
                                 name="estado" 
-                                th:value="${categoria.getEstado()}"
-                                class="custom-control-input" 
-                                value="false"
+                                th:checked="${categoria.getEstado()}"
+                                class="custom-control-input"
                                 id="customCheck">
                               <label class="custom-control-label" 
                                 for="customCheck">Activo</label>

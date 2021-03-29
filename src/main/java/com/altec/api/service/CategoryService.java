@@ -30,4 +30,8 @@ public class CategoryService {
     public void delete(int idCategoria) {
         categoryRepository.deleteById(idCategoria);
     }
+
+    public List<Categoria> getActives() {
+        return categoryRepository.findAllByEstado(true);
+    }
 }

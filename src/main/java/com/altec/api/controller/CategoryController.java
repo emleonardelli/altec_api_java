@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -30,7 +31,12 @@ public class CategoryController {
     }
 
     @PostMapping("/categorias/save")
-    public String save(Categoria c, Model model) {
+    public String save(
+        Categoria c,
+        @RequestParam(required = false) Boolean estado, 
+        Model model
+    ) {
+        c.setEstado(estado == null ? false : true);
         c = categoryService.save(c);
         return "redirect:/categorias";
     }
