@@ -25,7 +25,7 @@
                         </div>
                         <form class="user" action="/productos/save" method="post"
                           th:object=${producto}>
-                          <input type="hidden" name="id" th:value="${producto.getIdProducto()}">
+                          <input type="hidden" name="idProducto" th:value="${producto.getIdProducto()}">
                           <div class="form-group">
                             <input type="text"
                               name="nombre" 

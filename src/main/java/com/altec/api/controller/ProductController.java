@@ -27,7 +27,6 @@ public class ProductController {
 
     @PostMapping("/productos/save") 
     public String save(Producto p,Model model) {
-        p.setIdProducto(p.getIdProducto());
         p = productService.save(p);
         return  "redirect:/productos";
     }
