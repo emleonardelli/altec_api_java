@@ -7,8 +7,11 @@ import com.altec.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
+import javax.validation.Valid;
 
 @Controller
 public class ProductController {
@@ -26,14 +29,27 @@ public class ProductController {
     }
 
     @GetMapping("/productos/add")
-    public String add(Model model) {
+    public String add(Model model, Producto producto) {
         List<Categoria> categorias = categoryService.getActives();
         model.addAttribute("categorias", categorias);
         return "products/add";
     }
 
     @PostMapping("/productos/save") 
-    public String save(Producto p,Model model) {
+    public String save(
+        @Valid Producto p,
+        BindingResult bindingResult,
+        Model model
+    ) {
+        List<Categoria> categorias = categoryService.getActives();
+        model.addAttribute("categorias", categorias);
+        if (bindingResult.hasErrors()) {
+            if (p.getIdProducto() == null) {
+                return "products/add";
+            }else{
+                return "products/edit";
+            }
+        } 
         p = productService.save(p);
         return  "redirect:/productos";
     }
@@ -53,6 +69,6 @@ public class ProductController {
     @GetMapping("/productos/delete")
     public String delete(@RequestParam("id") int idProducto) {
         productService.delete(idProducto);
-        return "redirect:/productos";
+        return "redirect:/productos?success=1";
     }
 }

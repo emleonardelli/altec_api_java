@@ -23,47 +23,70 @@
                         <div class="text-center">
                           <h1 class="h4 text-gray-900 mb-2">Agregar producto</h1>
                         </div>
-                        <form class="user" action="/productos/save" method="post">
+                        <form 
+                          th:object="${producto}"
+                          class="user" 
+                          action="/productos/save" 
+                          method="post">
                           <div class="form-group">
                             <input type="text"
+                              th:field="*{nombre}"
                               name="nombre" 
                               class="form-control"
                               placeholder="Nombre...">
                           </div>
-                          
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('nombre')}"
+                            th:errors="*{nombre}"></div>
+
                           <div class="form-group">
                             <select 
+                              th:field="*{idCategoria}"
                               class="form-control"
-                              name="idCategoria"
-                              required>
-                              <option>Seleccione una categoria...</option>
+                              name="idCategoria">
+                              <option value="">Seleccione una categoria...</option>
                               <option 
                                 th:each="categoria : ${categorias}"
                                 th:text="${categoria.getDescripcion}"
                                 th:value="${categoria.getIdCategoria()}"></option>
                             </select>
                           </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('idCategoria')}"
+                            th:errors="*{idCategoria}"></div>
                           
                           <div class="form-group">
                             <input type="text" 
+                              th:field="*{codigoBarras}"
                               name="codigoBarras"
                               class="form-control"
                               placeholder="Codigo de barras...">
                           </div>
-
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('codigoBarras')}"
+                            th:errors="*{codigoBarras}"></div>
+                          
                           <div class="form-group">
                             <input type="text" 
+                              th:field="*{precioVenta}"
                               name="precioVenta"
                               class="form-control"
                               placeholder="Precio de venta...">
                           </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('precioVenta')}"
+                            th:errors="*{precioVenta}"></div>
 
                           <div class="form-group">
                             <input type="text" 
+                              th:field="*{cantidadStock}"
                               name="cantidadStock"
                               class="form-control"
                               placeholder="Cantidad en stock...">
                           </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('cantidadStock')}"
+                            th:errors="*{cantidadStock}"></div>
                           
                           
                           <div class="form-group">

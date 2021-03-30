@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends CrudRepository<Producto, Integer> {
     List<Producto> findAllByOrderByIdProductoDesc(); 
+    List<Producto> findAllByIdCategoria(int idCategoria);
 }

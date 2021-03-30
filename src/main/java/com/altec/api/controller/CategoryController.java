@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.altec.api.persistence.entity.Categoria;
 import com.altec.api.service.CategoryService;
+import com.altec.api.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/categorias")
     public String getAll(Model model) {
@@ -61,7 +64,11 @@ public class CategoryController {
 
     @GetMapping("/categorias/delete")
     public String delete(@RequestParam("id") int idCategoria) {
-        categoryService.delete(idCategoria);
-        return "redirect:/categorias";
+        if (productService.categoryHasProducts(idCategoria)) {
+            return "redirect:/categorias?fail=1";    
+        }else{
+            categoryService.delete(idCategoria);
+            return "redirect:/categorias?success=1";
+        }
     }
 }

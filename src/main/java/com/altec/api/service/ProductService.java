@@ -29,4 +29,13 @@ public class ProductService {
     public void delete(int idProducto) {
         productRepository.deleteById(idProducto);
     }
+
+    public Boolean categoryHasProducts(int idCategoria) {
+        List<Producto> productos = productRepository.findAllByIdCategoria(idCategoria);
+        if (productos.size() > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

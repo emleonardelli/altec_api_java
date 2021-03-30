@@ -1,6 +1,7 @@
 package com.altec.api.persistence.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "productos")
@@ -9,15 +10,28 @@ public class Producto {
     @GeneratedValue(strategy= GenerationType.IDENTITY,generator="native")
     @Column(name = "id_producto")
     private Integer idProducto;
+    
+    @NotBlank(message = "El Nombre es obligatorio")
+    @Size(min = 5, max = 50, message = "El Nombre de tener entre {min} y {max} caracteres")
     private String nombre;
+    
     @Column(name = "id_categoria")
+    @NotNull(message = "Seleccione una categoria")
     private Integer idCategoria;
+    
     @Column(name = "codigo_barras")
+    @NotBlank(message = "El Codigo de Barras es obligatorio")
+    @Size(min = 2, max = 15, message = "El Codigo debe tener entre {min} y {max} caracteres")
     private String codigoBarras;
+    
     @Column(name = "precio_venta")
+    @NotNull(message = "Ingrese un Precio de Venta")
     private Double precioVenta;
+    
     @Column(name = "cantidad_stock")
+    @NotNull(message = "Ingrese una cantidad de stock")
     private Integer cantidadStock;
+    
     private Boolean estado;
 
     @ManyToOne

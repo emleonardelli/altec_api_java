@@ -61,6 +61,15 @@
                 </div>
             </div>
             <script>
+              window.addEventListener('load', function() {
+                if (window.location.href.indexOf("success") > -1) {
+                  Swal.fire(
+                    'Borrado!',
+                    'Operacion exitosa.',
+                    'success'
+                  )
+                }
+              })
               function remove(url) {
                 Swal.fire({
                   title: 'Seguro?',
@@ -72,14 +81,7 @@
                   confirmButtonText: 'Eliminar!'
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    Swal.fire(
-                      'Borrado!',
-                      'Operacion exitosa.',
-                      'success'
-                    )
-                    setTimeout(() => {
-                      window.location.replace(url);
-                    }, 500);
+                    window.location.replace(url);
                   }
                 })
               }
