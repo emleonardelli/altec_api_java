@@ -29,11 +29,15 @@
                           <div class="form-group">
                             <input type="text"
                               name="descripcion" 
+                              th:field="*{descripcion}"
                               th:value="${categoria.getDescripcion()}"
                               class="form-control form-control-user"
                               placeholder="Descripcion...">
                           </div>
-                          
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('descripcion')}" 
+                            th:errors="*{descripcion}"></div>
+
                           <div class="form-group">
                             <div class="custom-control custom-checkbox small">
                               <input type="checkbox"

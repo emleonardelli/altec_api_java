@@ -2,16 +2,16 @@ package com.altec.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.altec.api.persistence.entity.Categoria;
 import com.altec.api.service.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class CategoryController {
@@ -26,16 +26,24 @@ public class CategoryController {
     }
 
     @GetMapping("/categorias/add")
-    public String add(Model model) {
+    public String add(Categoria categoria) {
         return "categories/add";
     }
 
     @PostMapping("/categorias/save")
     public String save(
-        Categoria c,
-        @RequestParam(required = false) Boolean estado, 
-        Model model
+        @Valid Categoria c,
+        BindingResult bindingResult,
+        @RequestParam(required = false) Boolean estado
     ) {
+        if (bindingResult.hasErrors()) {
+            if (c.getIdCategoria() == null) {
+                return "categories/add";
+            }else{
+                return "categories/edit";
+            }
+        } 
+        
         c.setEstado(estado == null ? false : true);
         c = categoryService.save(c);
         return "redirect:/categorias";

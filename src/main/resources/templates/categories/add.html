@@ -23,13 +23,20 @@
                         <div class="text-center">
                           <h1 class="h4 text-gray-900 mb-2">Agregar categorias</h1>
                         </div>
-                        <form class="user" action="/categorias/save" method="post">
+                        <form 
+                          th:object="${categoria}"
+                          class="user" 
+                          action="/categorias/save" method="post">
                           <div class="form-group">
                             <input type="text"
+                              th:field="*{descripcion}"
                               name="descripcion" 
                               class="form-control form-control-user"
                               placeholder="Descripcion...">
                           </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('descripcion')}" 
+                            th:errors="*{descripcion}"></div>
                           
                           <div class="form-group">
                             <div class="custom-control custom-checkbox small">

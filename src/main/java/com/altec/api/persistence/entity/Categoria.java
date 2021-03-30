@@ -1,6 +1,7 @@
 package com.altec.api.persistence.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "categorias")
@@ -15,17 +16,20 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @Column(name = "id_categoria")
     private Integer idCategoria;
+    @Size(min = 5, max = 50, 
+        message = "La descripcion debe tener entre {min} y {max} caracteres")
+    @NotBlank(message = "La Descripcion es obligatoria")
     private String descripcion;
     private Boolean estado;
     
     public Categoria(String descripcion, Boolean estado) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.trim();
         this.estado = estado == null ? false : true;
     }
     
     public Categoria(Integer idCategoria, String descripcion, Boolean estado) {
         this.idCategoria = idCategoria;
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.trim();
         this.estado = estado == null ? false : true;
     }
     
