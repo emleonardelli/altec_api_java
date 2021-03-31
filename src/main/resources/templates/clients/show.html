@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:include="fragments/head"></head>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <ul th:replace="fragments/sidebar :: sidebar"></ul>
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+        <div id="content">
+          <!-- CONTEnT -->
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+              <div class="col-xl-6 col-xs-12 col-md-8">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                  <!-- Nested Row within Card Body -->
+                  <div class="row" th:object="${cliente}">
+                    <div class="col-lg-12">
+                      <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-2">
+                              <span th:text="*{idCliente != null} ? 'Editar' : 'Agregar'"></span>
+                              cliente</h1>
+                        </div>
+                        <form class="user" action="/clientes/save" method="post">
+                          <input type="hidden" name="idCliente" th:value="${cliente.idCliente}">
+                          
+                          <div class="form-group">
+                            <input type="text"
+                              name="dni" 
+                              th:field="*{dni}"
+                              th:value="*{dni}"
+                              class="form-control form-control-user"
+                              placeholder="DNI...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('dni')}" 
+                            th:errors="*{dni}"></div>
+
+
+                          <div class="form-group">
+                            <input type="text"
+                              name="nombre" 
+                              th:field="*{nombre}"
+                              th:value="*{nombre}"
+                              class="form-control form-control-user"
+                              placeholder="Nombre...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('nombre')}" 
+                            th:errors="*{nombre}"></div>
+
+                          <div class="form-group">
+                            <input type="text"
+                              name="apellidos" 
+                              th:field="*{apellidos}"
+                              th:value="*{apellidos}"
+                              class="form-control form-control-user"
+                              placeholder="Apellido/s...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('apellidos')}" 
+                            th:errors="*{apellidos}"></div>
+
+                          <div class="form-group">
+                            <input type="number"
+                              name="celular" 
+                              th:field="*{celular}"
+                              th:value="*{celular}"
+                              class="form-control form-control-user"
+                              placeholder="Numero de celular...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('celular')}" 
+                            th:errors="*{celular}"></div>
+
+                          <div class="form-group">
+                            <input type="text"
+                              name="direccion" 
+                              th:field="*{direccion}"
+                              th:value="*{direccion}"
+                              class="form-control form-control-user"
+                              placeholder="Direccion...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('direccion')}" 
+                            th:errors="*{direccion}"></div>
+
+                          <div class="form-group">
+                            <input type="email"
+                              name="correoElectronico" 
+                              th:field="*{correoElectronico}"
+                              th:value="*{correoElectronico}"
+                              class="form-control form-control-user"
+                              placeholder="E-mail...">
+                          </div>
+                          <div class="alert alert-warning" 
+                            th:if="${#fields.hasErrors('correoElectronico')}" 
+                            th:errors="*{correoElectronico}"></div>
+
+                          <button class="btn btn-primary btn-user btn-block">
+                            Guardar
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- /.container-fluid -->
+        </div>
+        <div th:include="fragments/footer :: footer"></div>
+      </div>
+
+      <footer th:include="fragments/js :: js"></footer>
+    </div>
+  </body>
+</html>
