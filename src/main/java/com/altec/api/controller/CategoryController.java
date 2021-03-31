@@ -28,9 +28,17 @@ public class CategoryController {
         return "categories/all";
     }
 
-    @GetMapping("/categorias/add")
-    public String add(Categoria categoria) {
-        return "categories/add";
+    @GetMapping("/categorias/show")
+    public String add(
+        Categoria categoria, 
+        Model model, 
+        @RequestParam(required = false, name = "id") Integer idCategoria
+    ) {
+        if (idCategoria != null) {
+            categoria = categoryService.find(idCategoria);
+        }
+        model.addAttribute("categoria", categoria);
+        return "categories/show";
     }
 
     @PostMapping("/categorias/save")
@@ -40,26 +48,10 @@ public class CategoryController {
         @RequestParam(required = false) Boolean estado
     ) {
         if (bindingResult.hasErrors()) {
-            if (c.getIdCategoria() == null) {
-                return "categories/add";
-            }else{
-                return "categories/edit";
-            }
+            return "categories/show";
         } 
-        
-        c.setEstado(estado == null ? false : true);
         c = categoryService.save(c);
         return "redirect:/categorias";
-    }
-
-    @GetMapping("/categorias/edit") 
-    public String edit(
-        @RequestParam("id") int idCategoria,
-        Model model
-    ) {
-        Categoria c = categoryService.find(idCategoria);
-        model.addAttribute("categoria", c);
-        return  "/categories/edit";
     }
 
     @GetMapping("/categorias/delete")

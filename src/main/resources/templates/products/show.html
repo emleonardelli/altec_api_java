@@ -17,20 +17,22 @@
               <div class="col-xl-6 col-xs-12 col-md-8">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                   <!-- Nested Row within Card Body -->
-                  <div class="row">
+                  <div class="row" th:object="${producto}">
                     <div class="col-lg-12">
                       <div class="p-5">
                         <div class="text-center">
-                          <h1 class="h4 text-gray-900 mb-2">Editar producto</h1>
+                          <h1 class="h4 text-gray-900 mb-2">
+                            <span th:text="*{idProducto != null} ? 'Editar' : 'Agregar'"></span>
+                            producto</h1>
                         </div>
                         <form class="user" action="/productos/save" method="post"
                           th:object=${producto}>
-                          <input type="hidden" name="idProducto" th:value="${producto.getIdProducto()}">
+                          <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
                           <div class="form-group">
                             <input type="text"
                               th:field="*{nombre}"
                               name="nombre" 
-                              th:value="${producto.getNombre()}"
+                              th:value="${producto.nombre}"
                               class="form-control"
                               placeholder="Nombre...">
                           </div>
@@ -45,10 +47,10 @@
                               name="idCategoria">
                               <option value="">Seleccione una categoria...</option>
                               <option 
-                                th:selected="${producto.getIdCategoria() == categoria.getIdCategoria()}"
+                                th:selected="${producto.idCategoria == categoria.idCategoria}"
                                 th:each="categoria : ${categorias}"
-                                th:text="${categoria.getDescripcion}"
-                                th:value="${categoria.getIdCategoria()}"></option>
+                                th:text="${categoria.descripcion}"
+                                th:value="${categoria.idCategoria}"></option>
                             </select>
                           </div>
                           <div class="alert alert-warning"
@@ -59,7 +61,7 @@
                             <input type="text" 
                               th:field="*{codigoBarras}"
                               name="codigoBarras"
-                              th:value="${producto.getCodigoBarras()}"
+                              th:value="${producto.codigoBarras}"
                               class="form-control"
                               placeholder="Codigo de barras...">
                           </div>
@@ -71,7 +73,7 @@
                             <input type="text" 
                               th:field="*{precioVenta}"
                               name="precioVenta"
-                              th:value="${producto.getPrecioVenta()}"
+                              th:value="${producto.precioVenta}"
                               class="form-control"
                               placeholder="Precio de venta...">
                           </div>
@@ -83,7 +85,7 @@
                             <input type="text" 
                               th:field="*{cantidadStock}"
                               name="cantidadStock"
-                              th:value="${producto.getCantidadStock()}"
+                              th:value="${producto.cantidadStock}"
                               class="form-control"
                               placeholder="Cantidad en stock...">
                           </div>
@@ -96,7 +98,7 @@
                               <input type="checkbox"
                                 name="estado" 
                                 class="custom-control-input" 
-                                th:checked="${producto.getEstado()}"
+                                th:checked="${producto.estado}"
                                 id="customCheck">
                               <label class="custom-control-label" 
                                 for="customCheck">Activo</label>

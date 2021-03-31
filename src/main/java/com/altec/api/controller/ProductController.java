@@ -28,42 +28,38 @@ public class ProductController {
         return "products/all";
     }
 
-    @GetMapping("/productos/add")
-    public String add(Model model, Producto producto) {
+    @GetMapping("/productos/show")
+    public String add(
+        Model model, 
+        Producto producto,
+        @RequestParam(required = false, name = "id") Integer idProducto
+    ) {
         List<Categoria> categorias = categoryService.getActives();
         model.addAttribute("categorias", categorias);
-        return "products/add";
+        if (idProducto != null) {
+            producto = productService.find(idProducto);
+        }
+        model.addAttribute("producto", producto);
+        return "products/show";
     }
 
     @PostMapping("/productos/save") 
     public String save(
-        @Valid Producto p,
+        @Valid Producto producto,
         BindingResult bindingResult,
         Model model
     ) {
         List<Categoria> categorias = categoryService.getActives();
         model.addAttribute("categorias", categorias);
         if (bindingResult.hasErrors()) {
-            if (p.getIdProducto() == null) {
+            if (producto.getIdProducto() == null) {
                 return "products/add";
             }else{
                 return "products/edit";
             }
         } 
-        p = productService.save(p);
+        producto = productService.save(producto);
         return  "redirect:/productos";
-    }
-
-    @GetMapping("/productos/edit") 
-    public String edit(
-        @RequestParam("id") int idProducto,
-        Model model
-    ) {
-        List<Categoria> categorias = categoryService.getActives();
-        model.addAttribute("categorias", categorias);
-        Producto p = productService.find(idProducto);
-        model.addAttribute("producto", p);
-        return  "/products/edit";
     }
 
     @GetMapping("/productos/delete")

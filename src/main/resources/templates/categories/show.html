@@ -17,33 +17,34 @@
               <div class="col-xl-6 col-xs-12 col-md-8">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                   <!-- Nested Row within Card Body -->
-                  <div class="row">
+                  <div class="row" th:object="${categoria}">
                     <div class="col-lg-12">
                       <div class="p-5">
                         <div class="text-center">
-                          <h1 class="h4 text-gray-900 mb-2">Agregar categorias</h1>
+                            <h1 class="h4 text-gray-900 mb-2">
+                              <span th:text="*{idCategoria != null} ? 'Editar' : 'Agregar'"></span>
+                              categoria</h1>
                         </div>
-                        <form 
-                          th:object="${categoria}"
-                          class="user" 
-                          action="/categorias/save" method="post">
+                        <form class="user" action="/categorias/save" method="post">
+                        <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}">
                           <div class="form-group">
                             <input type="text"
-                              th:field="*{descripcion}"
                               name="descripcion" 
+                              th:field="*{descripcion}"
+                              th:value="${categoria.descripcion}"
                               class="form-control form-control-user"
                               placeholder="Descripcion...">
                           </div>
                           <div class="alert alert-warning" 
                             th:if="${#fields.hasErrors('descripcion')}" 
                             th:errors="*{descripcion}"></div>
-                          
+
                           <div class="form-group">
                             <div class="custom-control custom-checkbox small">
                               <input type="checkbox"
                                 name="estado" 
-                                class="custom-control-input" 
-                                value="false"
+                                th:checked="${categoria.estado}"
+                                class="custom-control-input"
                                 id="customCheck">
                               <label class="custom-control-label" 
                                 for="customCheck">Activo</label>

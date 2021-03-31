@@ -16,7 +16,7 @@
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Productos
               <a class="btn btn-info" 
-                href="/productos/add">
+                href="/productos/show">
                 Agregar
               </a>
             </h1>
@@ -46,7 +46,7 @@
                                 <td th:text="${producto.getCantidadStock()}"></td>
                                 <td>
                                   <a class="btn btn-info" 
-                                    th:href="@{/productos/edit(id=${producto.getIdProducto()})}">
+                                    th:href="@{/productos/show(id=${producto.getIdProducto()})}">
                                     <i class="fas fa-edit"></i>
                                   </a>
                                   <a class="btn btn-danger" 

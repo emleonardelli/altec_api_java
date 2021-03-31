@@ -16,7 +16,7 @@
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">Categorias
               <a class="btn btn-info" 
-                href="/categorias/add">
+                href="/categorias/show">
                 Agregar
               </a>
             </h1>
@@ -42,7 +42,7 @@
                                 <td th:text="${categoria.getEstado()} ? 'Activo' : 'Inactivo'"></td>
                                 <td>
                                   <a class="btn btn-info" 
-                                    th:href="@{/categorias/edit(id=${categoria.getIdCategoria()})}">
+                                    th:href="@{/categorias/show(id=${categoria.idCategoria})}">
                                     <i class="fas fa-edit"></i>
                                   </a>
                                   <a class="btn btn-danger" 

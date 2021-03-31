@@ -24,13 +24,13 @@ public class Categoria {
     
     public Categoria(String descripcion, Boolean estado) {
         this.descripcion = descripcion.trim();
-        this.estado = estado == null ? false : true;
+        this.estado = estado;
     }
     
     public Categoria(Integer idCategoria, String descripcion, Boolean estado) {
         this.idCategoria = idCategoria;
         this.descripcion = descripcion.trim();
-        this.estado = estado == null ? false : true;
+        this.estado = estado;
     }
     
     public Categoria(){
