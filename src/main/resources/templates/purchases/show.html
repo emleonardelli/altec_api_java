@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:include="fragments/head"></head>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <ul th:replace="fragments/sidebar :: sidebar"></ul>
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav>
+        <div id="content">
+          <!-- CONTEnT -->
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+              <div class="col-xl-6 col-xs-12 col-md-8">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                  <!-- Nested Row within Card Body -->
+                  <div class="row" th:object="${compra}">
+                    <div class="col-lg-12">
+                      <div class="p-5">
+                        <div class="text-center">
+                          <h1 class="h4 text-gray-900 mb-2">
+                            <span th:text="*{idCompra != null} ? 'Info de ' : 'Crear'"></span> compra</h1>
+                        </div>
+                        <form class="user" action="/compras/save" method="post"
+                          th:object=${compra}>
+                          <input type="hidden" name="idCompra" th:value="${compra.idCompra}">
+
+                          <div class="form-group" th:if="*{idCompra}">
+                            <input type="text" 
+                              name="cliente"
+                              th:value="'Cliente: ' + '(' + ${compra.cliente.idCliente} + ') ' + ${compra.cliente.nombre} + ' ' + ${compra.cliente.apellidos}"
+                              class="form-control"
+                              readonly>
+                          </div>
+
+                          <div th:if="*{idCompra == null}">
+                            <div class="form-group">
+                              <select 
+                                th:field="*{idCliente}"
+                                class="form-control"
+                                name="idCliente">
+                                <option value="">Seleccione un cliente...</option>
+                                <option 
+                                  th:selected="${compra.idCliente == cliente.idCliente}"
+                                  th:each="cliente : ${clientes}"
+                                  th:text="'('+${cliente.idCliente}+') '+${cliente.nombre}+' '+${cliente.apellidos}"
+                                  th:value="${cliente.idCliente}"></option>
+                              </select>
+                            </div>
+                            <div class="alert alert-warning"
+                              th:if="${#fields.hasErrors('idCliente')}"
+                              th:errors="*{idCliente}"></div>
+                          </div>
+
+
+                          <label for="">Selecciones los productos a comprar</label>
+                          <div style="
+                            height: 160px; 
+                            border: 1px solid lightgray; 
+                            border-radius: 7px;
+                            overflow-y: auto;
+                            margin-bottom: 10px;
+                            padding: 5px;">
+                            <div class="form-group" th:each="producto : ${productos}">
+                              <div class="custom-control custom-checkbox small">
+                                <input type="checkbox"
+                                  th:name="'pr_'+${producto.idProducto}" 
+                                  class="custom-control-input" 
+                                  th:id="'pr_'+${producto.idProducto}"
+                                  th:checked="${compra.hasProducto(producto.idProducto)}">
+                                <label class="custom-control-label" 
+                                  th:for="'pr_'+${producto.idProducto}"
+                                  th:text="${producto.nombre}"></label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <input type="datetime" 
+                              th:field="*{fecha}"
+                              name="fecha"
+                              th:value="${compra.fecha}"
+                              class="form-control"
+                              placeholder="Fecha de compra...">
+                          </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('fecha')}"
+                            th:errors="*{fecha}"></div>
+
+                          <div class="form-group">
+                            <input type="text" 
+                              th:field="*{medioPago}"
+                              name="medioPago"
+                              th:value="${compra.medioPago}"
+                              class="form-control"
+                              placeholder="Medio de pago...">
+                          </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('medioPago')}"
+                            th:errors="*{medioPago}"></div>
+
+                          <div class="form-group">
+                            <input type="text" 
+                              th:field="*{estado}"
+                              name="estado"
+                              th:value="${compra.estado}"
+                              class="form-control"
+                              placeholder="Estado...">
+                          </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('estado')}"
+                            th:errors="*{estado}"></div>
+
+                          <div class="form-group">
+                            <input type="text" 
+                              th:field="*{comentario}"
+                              name="comentario"
+                              th:value="${compra.comentario}"
+                              class="form-control"
+                              placeholder="Comentarios...">
+                          </div>
+                          <div class="alert alert-warning"
+                            th:if="${#fields.hasErrors('comentario')}"
+                            th:errors="*{comentario}"></div>
+
+                          <button class="btn btn-primary btn-user btn-block">
+                            Guardar
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- /.container-fluid -->
+        </div>
+        <div th:include="fragments/footer :: footer"></div>
+      </div>
+
+      <footer th:include="fragments/js :: js"></footer>
+    </div>
+  </body>
+</html>

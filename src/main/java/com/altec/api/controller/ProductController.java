@@ -52,11 +52,7 @@ public class ProductController {
         List<Categoria> categorias = categoryService.getActives();
         model.addAttribute("categorias", categorias);
         if (bindingResult.hasErrors()) {
-            if (producto.getIdProducto() == null) {
-                return "products/add";
-            }else{
-                return "products/edit";
-            }
+            return "products/show";
         } 
         producto = productService.save(producto);
         return  "redirect:/productos";

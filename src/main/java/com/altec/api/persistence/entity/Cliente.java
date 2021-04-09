@@ -3,8 +3,6 @@ package com.altec.api.persistence.entity;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import groovyjarjarpicocli.CommandLine.Command;
-
 @Entity
 @Table(name = "clientes")
 public class Cliente {
