@@ -55,29 +55,71 @@
                               th:errors="*{idCliente}"></div>
                           </div>
 
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Selecciones el producto y cantidad a comprar</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-group">
+                                    <select 
+                                      class="form-control"
+                                      id="id-producto">
+                                      <option value="000">Seleccione un producto...</option>
+                                      <option 
+                                        th:each="producto : ${productos}"
+                                        th:text="${producto.nombre}+' - ($ '+${producto.precioVenta}+'.-)'"
+                                        th:name="${producto.nombre}"
+                                        th:precio="${producto.precioVenta}"
+                                        th:value="${producto.idProducto}"></option>
+                                    </select>
+                                  </div>
 
-                          <label for="">Selecciones los productos a comprar</label>
-                          <div style="
-                            height: 160px; 
-                            border: 1px solid lightgray; 
-                            border-radius: 7px;
-                            overflow-y: auto;
-                            margin-bottom: 10px;
-                            padding: 5px;">
-                            <div class="form-group" th:each="producto : ${productos}">
-                              <div class="custom-control custom-checkbox small">
-                                <input type="checkbox"
-                                  th:name="'pr_'+${producto.idProducto}" 
-                                  class="custom-control-input" 
-                                  th:id="'pr_'+${producto.idProducto}"
-                                  th:checked="${compra.hasProducto(producto.idProducto)}">
-                                <label class="custom-control-label" 
-                                  th:for="'pr_'+${producto.idProducto}"
-                                  th:text="${producto.nombre}"></label>
+                                  <div 
+                                    class="form-group" >
+                                    <input 
+                                      type="number"
+                                      id="id-cantidad"
+                                      class="form-control"
+                                      placeholder="Cantidad...">
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                  <button type="button" class="btn btn-primary" onclick="agregarProducto()">Agregar</button>
+                                </div>
                               </div>
                             </div>
                           </div>
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                              Agregar productos
+                            </button>  
+                          </div>
 
+                          <label for="">Lista de productos</label>
+                          <div>
+                            <div style="
+                              height: 160px; 
+                              border: 1px solid lightgray; 
+                              border-radius: 7px;
+                              overflow-y: auto;
+                              margin-bottom: 10px;
+                              padding: 5px;"
+                              id="listaProductos">
+                              <div  th:if="*{idCompra}" class="form-group" th:each="producto : ${compra.productos}">
+                                <input type="text" 
+                                  readonly 
+                                  th:value="${producto.nombre}+' - ($ '+${producto.precioVenta}+')'"
+                                  class="form-control">
+                              </div>
+                            </div>
+                          </div>
+                          
                           <div class="form-group">
                             <input type="datetime" 
                               th:field="*{fecha}"
@@ -139,10 +181,58 @@
           </div>
         <!-- /.container-fluid -->
         </div>
+
+        
         <div th:include="fragments/footer :: footer"></div>
       </div>
-
+      
       <footer th:include="fragments/js :: js"></footer>
+      <script>
+        function agregarProducto() {
+          let data = document.getElementById('id-producto')
+          let idProducto = data.value
+          if (data.value == '000') {
+            Swal.fire(
+              'Error!',
+              'Seleccione un producto',
+              'warning'
+            )
+            return false
+          }
+
+          let cantidad = document.getElementById('id-cantidad')
+          if (cantidad.value == '') {
+            Swal.fire(
+              'Error!',
+              'Ingrese una cantidad',
+              'warning'
+            )
+            return false
+          }
+
+          let innerText = data.options[data.selectedIndex].getAttribute("name")
+          let innerPrice = data.options[data.selectedIndex].getAttribute("precio")
+
+          let input = document.createElement("input");
+          input.setAttribute("type", "text");
+          input.setAttribute("name", "pr_id_"+idProducto);
+          input.setAttribute("value", innerText + ' - ($ ' + innerPrice*cantidad.value + ')');
+          input.setAttribute("readonly", "true");
+          input.setAttribute("class", "form-control");
+
+          let div = document.createElement("div");
+          div.setAttribute("class", "form-group");
+          div.appendChild(input);
+          
+          let listado = document.getElementById('listaProductos')
+          listado.appendChild(div);
+
+          $('#exampleModal').modal('toggle')
+          data.value='000'
+          cantidad.value=null
+        }
+
+      </script>
     </div>
   </body>
 </html>
