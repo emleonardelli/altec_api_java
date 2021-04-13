@@ -1,5 +1,7 @@
 package com.altec.api.persistence.entity;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -38,6 +40,9 @@ public class Producto {
     @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
     private Categoria categoria;
 
+    @OneToOne
+    @JoinColumn(name = "id_producto",insertable = false, updatable = false)
+    private CompraProducto compraProducto;
 
     public Boolean isEstado() {
         return this.estado;
@@ -51,6 +56,13 @@ public class Producto {
         this.categoria = categoria;
     }
 
+    public CompraProducto getCompraProducto() {
+        return this.compraProducto;
+    }
+
+    public void setCompraProducto(CompraProducto compraProducto) {
+        this.compraProducto = compraProducto;
+    }  
 
     public Integer getIdProducto() {
         return idProducto;

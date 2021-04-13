@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -37,6 +39,10 @@ public class Compra {
     @ManyToOne
     @JoinColumn(name = "id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
+    
+    @OneToOne
+    @JoinColumn(name = "id_compra", insertable = false, updatable = false)
+    private CompraProducto compraProducto;
 
     @ManyToMany
     @JoinTable(
@@ -54,6 +60,15 @@ public class Compra {
 
         }
         return false;
+    }
+
+
+    public CompraProducto getCompraProducto() {
+        return this.compraProducto;
+    }
+
+    public void setCompraProducto(CompraProducto compraProducto) {
+        this.compraProducto = compraProducto;
     }
 
     public List<Producto> getProductos() {
