@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-@Qualifier("categoryImpl")
-public class CategoryServiceImpl implements CategoryService{
+@Qualifier("categoryImpl2")
+public class CategoryServiceImpl2 implements CategoryService{
     @Autowired
     private CategoryRepository categoryRepository;
 

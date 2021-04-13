@@ -5,6 +5,7 @@ import com.altec.api.persistence.entity.Producto;
 import com.altec.api.service.CategoryService;
 import com.altec.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
+    @Qualifier("categoryImpl")
     private CategoryService categoryService;
 
     @GetMapping("/productos")
