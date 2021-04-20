@@ -1,6 +1,8 @@
 package com.altec.api.controller;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +70,11 @@ public class PurchaseController {
         Model model
     ) {
         List<Producto> productos = productService.getAll();
+        String inputFecha = reqParam.get("fecha");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/M/dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(inputFecha, formatter);
+        compra.setFecha(dateTime);
         compra = purchaseService.save(compra);
-        //System.out.println(compra.getIdCompra());
-        //return "redirect:/compras";
         for (Producto producto : productos) {
             if (reqParam.get("pr_id_"+producto.getIdProducto()) != null) {
                 String input = reqParam.get("pr_id_"+producto.getIdProducto());

@@ -34,6 +34,7 @@
                               th:value="'Cliente: ' + '(' + ${compra.cliente.idCliente} + ') ' + ${compra.cliente.nombre} + ' ' + ${compra.cliente.apellidos}"
                               class="form-control"
                               readonly>
+                            <input type="hidden" name="idCliente" th:value="${compra.cliente.idCliente}">
                           </div>
 
                           <div th:if="*{idCompra == null}">
@@ -121,12 +122,12 @@
                           </div>
                           
                           <div class="form-group">
-                            <input type="datetime-local" 
+                            <input type="text" 
                               th:field="*{fecha}"
                               name="fecha"
                               th:value="${compra.fecha}"
                               class="form-control"
-                              placeholder="Fecha de compra...">
+                              placeholder="Fecha de compra en formato 'aa/mm/dd hh:ii'">
                           </div>
                           <div class="alert alert-warning"
                             th:if="${#fields.hasErrors('fecha')}"
