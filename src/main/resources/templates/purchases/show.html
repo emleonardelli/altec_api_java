@@ -111,17 +111,17 @@
                               margin-bottom: 10px;
                               padding: 5px;"
                               id="listaProductos">
-                              <div  th:if="*{idCompra}" class="form-group" th:each="producto : ${compra.productos}">
+                              <div  th:if="*{idCompra}" class="form-group" th:each="det : ${compra.detalle}">
                                 <input type="text" 
                                   readonly 
-                                  th:value="${producto.nombre}+' - ($ '+${producto.precioVenta}+') cantidad: '"
+                                  th:value="${det.producto.nombre}+' - Total $'+${det.total}+' - Cant: '+${det.cantidad}"
                                   class="form-control">
                               </div>
                             </div>
                           </div>
                           
                           <div class="form-group">
-                            <input type="datetime" 
+                            <input type="datetime-local" 
                               th:field="*{fecha}"
                               name="fecha"
                               th:value="${compra.fecha}"
@@ -216,7 +216,7 @@
           let input = document.createElement("input");
           input.setAttribute("type", "text");
           input.setAttribute("name", "pr_id_"+idProducto);
-          input.setAttribute("value", innerText + ' - ($ ' + innerPrice*cantidad.value + ')');
+          input.setAttribute("value", innerText + ' - Total: $' + innerPrice*cantidad.value + ' - Cant: '+ cantidad.value);
           input.setAttribute("readonly", "true");
           input.setAttribute("class", "form-control");
 

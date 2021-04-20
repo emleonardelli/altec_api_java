@@ -1,3 +1,86 @@
+-- -----------------------------------------------------
+-- Table categorias
+-- -----------------------------------------------------
+CREATE TABLE  categorias (
+  id_categoria INT NOT NULL AUTO_INCREMENT,
+  descripcion VARCHAR(45) NOT NULL,
+  estado BOOLEAN NOT NULL,
+  PRIMARY KEY (id_categoria));
+
+
+-- -----------------------------------------------------
+-- Table productos
+-- -----------------------------------------------------
+CREATE TABLE  productos (
+  id_producto INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(45) NULL,
+  id_categoria INT NOT NULL,
+  codigo_barras VARCHAR(150) NULL,
+  precio_venta DECIMAL(16,2) NULL,
+  cantidad_stock INT NOT NULL,
+  estado BOOLEAN NULL,
+  PRIMARY KEY (id_producto),
+  CONSTRAINT fk_productos_categorias
+    FOREIGN KEY (id_categoria)
+    REFERENCES categorias (id_categoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table clientes
+-- -----------------------------------------------------
+CREATE TABLE  clientes (
+  id_cliente INT NOT NULL AUTO_INCREMENT,
+  dni VARCHAR(20) NOT NULL,
+  nombre VARCHAR(40) NULL,
+  apellidos VARCHAR(100) NULL,
+  celular NUMERIC NULL,
+  direccion VARCHAR(80) NULL,
+  correo_electronico VARCHAR(70) NULL,
+  PRIMARY KEY (id_cliente));
+
+
+-- -----------------------------------------------------
+-- Table compras
+-- -----------------------------------------------------
+CREATE TABLE  compras (
+  id_compra INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  fecha TIMESTAMP NULL,
+  medio_pago CHAR(1) NULL,
+  comentario VARCHAR(300) NULL,
+  estado CHAR(1) NULL,
+  PRIMARY KEY (id_compra),
+  CONSTRAINT fk_compras_clientes1
+    FOREIGN KEY (id_cliente)
+    REFERENCES clientes (id_cliente)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table compras_productos
+-- -----------------------------------------------------
+CREATE TABLE  compras_productos (
+  id_compra INT NOT NULL,
+  id_producto INT NOT NULL,
+  cantidad INT NULL,
+  total DECIMAL(16,2) NULL,
+  estado BOOLEAN NULL,
+  PRIMARY KEY (id_compra, id_producto),
+  CONSTRAINT fk_compras_productos_productos1
+    FOREIGN KEY (id_producto)
+    REFERENCES productos (id_producto)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_compras_productos_compras1
+    FOREIGN KEY (id_compra)
+    REFERENCES compras (id_compra)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
 -- CATEGORIAS
 INSERT INTO categorias VALUES (1, 'Frutas y verduras', true);
 INSERT INTO categorias VALUES (2, 'Pastelería', true);
@@ -67,8 +150,8 @@ INSERT INTO clientes VALUES (3, '983824', 'Nicolás', 'Copernico', 3019392466, '
 
 -- COMPRA
 INSERT INTO compras VALUES (1, 1, STR_TO_DATE('10/08/1992 23:38:12', '%d/%m/%Y %T'), 'E', '', 'P');
-INSERT INTO compras_productos VALUES (1, 1, 1, 10, 3000, true);
-INSERT INTO compras_productos VALUES (2, 1, 36, 1, 40000, true);
-INSERT INTO compras_productos VALUES (3, 1, 27, 1, 9000, true);
-INSERT INTO compras_productos VALUES (4, 1, 49, 2, 16400, true);
-INSERT INTO compras_productos VALUES (5, 1, 24, 1, 4000, true);
+INSERT INTO compras_productos VALUES (1, 1, 10, 3000, true);
+INSERT INTO compras_productos VALUES (1, 36, 1, 40000, true);
+INSERT INTO compras_productos VALUES (1, 27, 1, 9000, true);
+INSERT INTO compras_productos VALUES (1, 49, 2, 16400, true);
+INSERT INTO compras_productos VALUES (1, 24, 1, 4000, true);

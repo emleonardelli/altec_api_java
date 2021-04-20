@@ -40,10 +40,6 @@ public class Producto {
     @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
     private Categoria categoria;
 
-    @OneToOne
-    @JoinColumn(name = "id_producto",insertable = false, updatable = false)
-    private CompraProducto compraProducto;
-
     public Boolean isEstado() {
         return this.estado;
     }
@@ -55,14 +51,6 @@ public class Producto {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
-    public CompraProducto getCompraProducto() {
-        return this.compraProducto;
-    }
-
-    public void setCompraProducto(CompraProducto compraProducto) {
-        this.compraProducto = compraProducto;
-    }  
 
     public Integer getIdProducto() {
         return idProducto;

@@ -1,20 +1,10 @@
 package com.altec.api.persistence.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "compras")
@@ -39,44 +29,25 @@ public class Compra {
     @ManyToOne
     @JoinColumn(name = "id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
-    
-    @OneToOne
-    @JoinColumn(name = "id_compra", insertable = false, updatable = false)
-    private CompraProducto compraProducto;
 
-    @ManyToMany
-    @JoinTable(
-        name = "compras_productos", 
-        joinColumns = @JoinColumn(name = "id_compra"), 
-        inverseJoinColumns = @JoinColumn(name = "id_producto")
-    )
-    private List<Producto> productos;
+    @OneToMany(mappedBy = "compra")
+    private List<CompraProducto> detalle;
 
     public Boolean hasProducto(Integer idProducto) {
-        for (Producto p : this.productos) {
-            if (p.getIdProducto() == idProducto) {
+        for (CompraProducto p : this.detalle) {
+            if (p.getProducto().getIdProducto() == idProducto) {
                 return true;
             }
-
         }
         return false;
     }
 
-
-    public CompraProducto getCompraProducto() {
-        return this.compraProducto;
+    public List<CompraProducto> getDetalle() {
+        return this.detalle;
     }
 
-    public void setCompraProducto(CompraProducto compraProducto) {
-        this.compraProducto = compraProducto;
-    }
-
-    public List<Producto> getProductos() {
-        return this.productos;
-    }
-
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setDetalle(List<CompraProducto> detalle) {
+        this.detalle = detalle;
     }
 
     public Compra get() {
@@ -139,5 +110,11 @@ public class Compra {
         this.estado = estado;
     }
 
+    public void addDetalle(CompraProducto compraProducto) {
+        if (this.detalle == null) {
+            this.detalle = new ArrayList<CompraProducto>();
+        }
+        this.detalle.add(compraProducto);
+    }
 
 }

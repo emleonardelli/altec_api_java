@@ -1,53 +1,62 @@
 package com.altec.api.persistence.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "compras_productos")
 public class CompraProducto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
-    @Column(name = "id")
-    private Integer idCompraProducto;
-    
-    @Column(name = "id_compra")
-    private Integer idCompra;
+    @EmbeddedId
+    CompraProductoKey id;
 
-    @Column(name = "id_producto")
-    private Integer idProducto;
+    @ManyToOne
+    @MapsId("idCompra")
+    @JoinColumn(name = "id_compra")
+    Compra compra;
+
+    @ManyToOne
+    @MapsId("idProducto")
+    @JoinColumn(name = "id_producto")
+    Producto producto;
 
     private Integer cantidad;
     private Double total;
     private Boolean estado;
 
-
-    public Integer getIdCompraProducto() {
-        return this.idCompraProducto;
+    public CompraProducto() {
+        
     }
 
-    public void setIdCompraProducto(Integer idCompraProducto) {
-        this.idCompraProducto = idCompraProducto;
+    public CompraProducto(CompraProductoKey id, Compra compra, Producto producto, Integer cantidad, Double total, Boolean estado) {
+        this.id = id;
+        this.compra = compra;
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.estado = estado;
     }
 
-    public Integer getIdCompra() {
-        return this.idCompra;
+    public CompraProductoKey getId() {
+        return this.id;
     }
 
-    public void setIdCompra(Integer idCompra) {
-        this.idCompra = idCompra;
+    public void setId(CompraProductoKey id) {
+        this.id = id;
     }
 
-    public Integer getIdProducto() {
-        return this.idProducto;
+    public Compra getCompra() {
+        return this.compra;
     }
 
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
+    public void setCompra(Compra compra) {
+        this.compra = compra;
+    }
+
+    public Producto getProducto() {
+        return this.producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     public Integer getCantidad() {

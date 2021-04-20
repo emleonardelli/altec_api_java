@@ -1,9 +1,16 @@
 package com.altec.api.controller;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import com.altec.api.persistence.entity.Cliente;
 import com.altec.api.persistence.entity.Compra;
+import com.altec.api.persistence.entity.CompraProducto;
+import com.altec.api.persistence.entity.CompraProductoKey;
 import com.altec.api.persistence.entity.Producto;
 import com.altec.api.service.ClientService;
 import com.altec.api.service.ProductService;
@@ -12,8 +19,8 @@ import com.altec.api.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PurchaseController {
@@ -51,5 +58,37 @@ public class PurchaseController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("compra", compra);
         return "purchases/show";
+    }
+
+    @PostMapping("/compras/save")
+    public String save(
+        @Valid Compra compra, 
+        BindingResult bigBindingResult,
+        @RequestParam Map<String, String> reqParam,
+        Model model
+    ) {
+        List<Producto> productos = productService.getAll();
+        compra = purchaseService.save(compra);
+        //System.out.println(compra.getIdCompra());
+        //return "redirect:/compras";
+        for (Producto producto : productos) {
+            if (reqParam.get("pr_id_"+producto.getIdProducto()) != null) {
+                String input = reqParam.get("pr_id_"+producto.getIdProducto());
+                int totalFrom = input.indexOf('$') + 1;
+                int totalTo = totalFrom + input.substring(totalFrom, input.length()).indexOf(' ');
+                String total = input.substring(totalFrom, totalTo);
+                int cantFrom = totalTo + input.substring(totalTo, input.length()).indexOf(':') + 2;
+                int cantTo = input.length();
+                int cantidad = Integer.parseInt(input.substring(cantFrom, cantTo));
+                purchaseService.addDetalle(
+                    compra, 
+                    producto,
+                    cantidad,
+                    Double.parseDouble(total)
+                );
+            }
+        }
+        return "redirect:/compras";
+        
     }
 }
