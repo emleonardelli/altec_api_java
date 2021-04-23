@@ -54,4 +54,13 @@ public class PurchaseServiceImpl implements PurchaseService{
         
         compra.addDetalle(detalle);
     }
+
+    @Override
+    public void delete(int idCompra) {
+        Compra compra = purchaseRepository.findById(idCompra).get();
+        for (CompraProducto detalle : compra.getDetalle()) {
+            purchaseProductRepository.delete(detalle);
+        }
+        purchaseRepository.delete(compra);
+    }
 }

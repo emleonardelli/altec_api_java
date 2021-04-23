@@ -46,7 +46,7 @@
                                     <i class="fas fa-edit"></i>
                                   </a>
                                   <a class="btn btn-danger" 
-                                    th:onclick="|remove('@{/productos/delete(id=${compra.getIdCompra()})}')|">
+                                    th:onclick="|remove('@{/compras/delete(id=${compra.getIdCompra()})}')|">
                                     <i class="fas fa-trash"></i>
                                   </a>
                                 </td>
@@ -69,7 +69,7 @@
               function remove(url) {
                 Swal.fire({
                   title: 'Seguro?',
-                  text: "Eliminar producto!",
+                  text: "Eliminar compra!",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonColor: '#3085d6',

@@ -14,4 +14,5 @@ public interface PurchaseService {
         int cantidad,
         Double total
     );
+    public void delete(int idCompra);
 }

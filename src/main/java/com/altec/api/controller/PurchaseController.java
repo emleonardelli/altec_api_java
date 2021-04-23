@@ -1,9 +1,7 @@
 package com.altec.api.controller;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +9,6 @@ import javax.validation.Valid;
 
 import com.altec.api.persistence.entity.Cliente;
 import com.altec.api.persistence.entity.Compra;
-import com.altec.api.persistence.entity.CompraProducto;
-import com.altec.api.persistence.entity.CompraProductoKey;
 import com.altec.api.persistence.entity.Producto;
 import com.altec.api.service.ClientService;
 import com.altec.api.service.ProductService;
@@ -22,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -116,5 +111,11 @@ public class PurchaseController {
         }
         return "redirect:/compras";
         
+    }
+
+    @GetMapping("/compras/delete")
+    public String delete(@RequestParam("id") int idCompra) {
+        purchaseService.delete(idCompra);
+        return "redirect:/compras?success=1";
     }
 }
