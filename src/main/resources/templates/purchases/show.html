@@ -30,11 +30,10 @@
 
                           <div class="form-group" th:if="*{idCompra}">
                             <input type="text" 
-                              name="cliente"
-                              th:value="'Cliente: ' + '(' + ${compra.cliente.idCliente} + ') ' + ${compra.cliente.nombre} + ' ' + ${compra.cliente.apellidos}"
+                              th:value="'Cliente: ' + '(' + ${compra.idCliente} + ') ' + ${compra.cliente.nombre} + ' ' + ${compra.cliente.apellidos}"
                               class="form-control"
                               readonly>
-                            <input type="hidden" name="idCliente" th:value="${compra.cliente.idCliente}">
+                            <input type="hidden" name="idCliente" th:value="${compra.idCliente}">
                           </div>
 
                           <div th:if="*{idCompra == null}">
@@ -189,6 +188,9 @@
       
       <footer th:include="fragments/js :: js"></footer>
       <script>
+        () => {
+
+        }
         function agregarProducto() {
           let data = document.getElementById('id-producto')
           let idProducto = data.value

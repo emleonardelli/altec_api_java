@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -59,21 +60,42 @@ public class PurchaseController {
 
         model.addAttribute("cliente", cliente);
         model.addAttribute("compra", compra);
+
         return "purchases/show";
     }
 
     @PostMapping("/compras/save")
     public String save(
         @Valid Compra compra, 
-        BindingResult bigBindingResult,
+        BindingResult bindingResult,
         @RequestParam Map<String, String> reqParam,
         Model model
     ) {
+        List<Cliente> clientes = clientService.getAll();
+        model.addAttribute("clientes", clientes);
+
         List<Producto> productos = productService.getAll();
+        model.addAttribute("productos", productos);
+        
+        if (compra.getIdCliente() != null) {
+            compra.setCliente(clientService.find(compra.getIdCliente()));
+        }
+    
+        if (reqParam.get("fecha") == "") {
+            bindingResult.rejectValue("fecha", "error.fecha", "La fecha es obligatoria");  
+            return "purchases/show";
+        }
+
         String inputFecha = reqParam.get("fecha");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/M/dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(inputFecha, formatter);
         compra.setFecha(dateTime);
+        
+        if (bindingResult.hasErrors()) {
+            return "purchases/show";
+        }
+        //bindingResult.rejectValue("detalle", "error.detalle", "sadfsadf");
+        
         compra = purchaseService.save(compra);
         for (Producto producto : productos) {
             if (reqParam.get("pr_id_"+producto.getIdProducto()) != null) {

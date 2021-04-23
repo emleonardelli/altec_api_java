@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "compras")
@@ -15,18 +16,24 @@ public class Compra {
     private Integer idCompra;
     
     @Column(name = "id_cliente")
+    @NotNull(message = "Seleccione un Cliente")
     private Integer idCliente;
 
     private LocalDateTime fecha;
 
     @Column(name = "medio_pago")
+    @NotNull
+    @Size(min = 1, max = 1)
     private String medioPago;
 
+    @NotNull
     private String comentario;
 
+    @NotNull
+    @Size(min = 1, max = 1)
     private String estado;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
 
