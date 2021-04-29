@@ -80,11 +80,6 @@ public class PurchaseController {
             bindingResult.rejectValue("fecha", "error.fecha", "La fecha es obligatoria");  
             return "purchases/show";
         }
-
-        String inputFecha = reqParam.get("fecha");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/M/dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse(inputFecha, formatter);
-        compra.setFecha(dateTime);
         
         if (bindingResult.hasErrors()) {
             return "purchases/show";

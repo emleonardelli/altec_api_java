@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "compras")
 public class Compra {
@@ -19,6 +21,7 @@ public class Compra {
     @NotNull(message = "Seleccione un Cliente")
     private Integer idCliente;
 
+    @DateTimeFormat (pattern="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime fecha;
 
     @Column(name = "medio_pago")
